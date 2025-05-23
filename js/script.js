@@ -1,7 +1,42 @@
+/*funcion constructora*/
+function User(firstName, lastName, showGreeting = true) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+
+    this.speak = function () {
+        if (showGreeting) {
+            alert(`Hi ${this.firstName} ${this.lastName}, welcome to the Guitar Store!`);
+        }
+    };
+
+    this.speak();
+}
+/*sessionStorage, guardar nombre y apellido del usuario y si ya existe en el sessionStorage que diga bienvenido devuelta*/
+let firstName = sessionStorage.getItem("firstName");
+let lastName = sessionStorage.getItem("lastName");
+
+if (!firstName || !lastName) {
+    firstName = prompt("Enter your first name:");
+    lastName = prompt("Enter your last name:");
+
+    sessionStorage.setItem("firstName", firstName);
+    sessionStorage.setItem("lastName", lastName);
+
+    let user = new User(firstName, lastName);
+} else {
+
+    alert(`Welcome back, ${firstName} ${lastName}!`);
+    let user = new User(firstName, lastName, false);
+}
 /* array */
 let cart = [];
 /*variable */
 let total = 0;
+/*recuperar el carrito por localstorage -getItem*/
+const savedCart = localStorage.getItem("cart");
+if (savedCart) {
+    cart = JSON.parse(savedCart); /*aca vuelve del string ya que estaba en localstorage que solo guarda strings a array nuevamente*/
+}
 /* primer funcion*/
 function showGuitarOptions() {
     console.clear();
@@ -36,6 +71,8 @@ function showGuitarOptions() {
 /*arrow function*/
 const addToCart = (guitarName, price) => {
     cart.push({ name: guitarName, price: price });
+    /*localStorage setItem*/
+    localStorage.setItem("cart", JSON.stringify(cart)); /*convierte el array en string, xq localstorage solo guarda strings (tambien puedo guardar por id usando for of como ejemplo de clase)*/
     alert(`${guitarName} added to the cart for $${price}.`);
     console.log(`Added ${guitarName} to cart with price $${price}`);
     showGuitarOptions();
@@ -54,7 +91,6 @@ function showCart() {
         cartSummary += `${cart[i].name} - $${cart[i].price}\n`;
         total += cart[i].price;
     };
-
     alert(cartSummary);
     console.log(cartSummary);
     /*confirm*/
@@ -63,6 +99,8 @@ function showCart() {
     if (cleanCart) {
         cart = [];
         total = 0;
+        /*limpiar el carrito de localstorage -removeItem*/
+        localStorage.removeItem("cart");
         alert("Your cart has been cleared.");
         console.log("Cart cleared");
     } else {
