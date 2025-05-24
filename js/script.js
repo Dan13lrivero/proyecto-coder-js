@@ -132,6 +132,7 @@ function showCart() {
         console.log("Cart cleared");
     } else {
         applyDiscount();
+        return;
     }
 }
 /*tercer function*/
@@ -148,6 +149,7 @@ function applyDiscount() {
     let finalPrice = total - (total * (discount / 100));
     alert(`Your total is $${total}. Discount applied: ${discount}%. Final price: $${finalPrice}`);
     console.log(`Final price after discount: $${finalPrice}`);
+    showGuitarOptions();
 }
 function searchGuitarByModel() {
     const searchGuitar = prompt("Enter the guitar model to search:").toUpperCase();
