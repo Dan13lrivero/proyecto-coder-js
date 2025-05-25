@@ -30,10 +30,23 @@ if (!firstName || !lastName) {
 }
 /*array de productos*/
 const products = [
-    { id: 1, name: "Flying V", brand: "Gibson", color: "Red", price: 1000 },
-    { id: 2, name: "Explorer", brand: "Gibson", color: "Black", price: 2000 },
-    { id: 3, name: "Warlock", brand: "B.C. Rich", color: "White", price: 3000 }
+  { id: 1, name: "Stratocaster", brand: "Fender", color: "Black", price: 4000 },
+  { id: 2, name: "Telecaster", brand: "Squier", color: "Natural Wood", price: 5000 },
+  { id: 3, name: "Dinky", brand: "Jackson", color: "Green", price: 6000 },
+  { id: 4, name: "Sg", brand: "Gibson", color: "Red", price: 7000 },
+  { id: 5, name: "Flying v", brand: "Jackson", color: "Red", price: 8000 },
+  { id: 6, name: "Les Paul", brand: "LTD", color: "Black", price: 9000 },
+  { id: 7, name: "Explorer", brand: "LTD", color: "Black", price: 10000 },
+  { id: 8, name: "Randy Rhoads", brand: "ESP", color: "Black-Green", price: 10500 },
+  { id: 9, name: "Explorer", brand: "Dean", color: "Black", price: 20000 },
+  { id: 10, name: "Flying v", brand: "Jackson", color: "Red-Black", price: 20500 },
+  { id: 11, name: "Randy Rhoads", brand: "ESP", color: "Black", price: 30500 },
+  { id: 12, name: "Prestige", brand: "Ibanez", color: "Gray", price: 40000 },
+  { id: 13, name: "Dinky", brand: "Jackson", color: "Blue-Pink", price: 40500 },
+  { id: 14, name: "Prestige", brand: "Ibanez", color: "Blue", price: 50000 },
+  { id: 15, name: "EC-1000", brand: "LTD", color: "Orange", price: 50500 }
 ];
+
 /* array */
 let cart = [];
 /*variable */
@@ -54,7 +67,7 @@ function showGuitarOptions() {
     });
     optionsText += "Type 's' to search for a guitar by model.\n";
     optionsText += "Type '0' to finish.\n";
-    optionsText += "10% discount over $1000\n20% over $2000\n30% over $3000";
+    optionsText += "10% discount over $10,000\n20% over $20,000\n30% over $30,000";
 
     let guitarChoice = prompt(optionsText);
 
@@ -108,6 +121,7 @@ function showCart() {
     if (cart.length === 0) {
         alert("Your cart is empty.");
         console.log("Cart is empty");
+        showGuitarOptions();
         return;
     }
 
@@ -130,6 +144,7 @@ function showCart() {
         localStorage.removeItem("cart");
         alert("Your cart has been cleared.");
         console.log("Cart cleared");
+        showGuitarOptions();
     } else {
         applyDiscount();
         return;
@@ -138,11 +153,11 @@ function showCart() {
 /*tercer function*/
 function applyDiscount() {
     let discount = 0;
-    if (total >= 3000) {
+    if (total >= 30000) {
         discount = 30;
-    } else if (total >= 2000) {
+    } else if (total >= 20000) {
         discount = 20;
-    } else if (total >= 1000) {
+    } else if (total >= 10000) {
         discount = 10;
     }
 
