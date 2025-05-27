@@ -2,32 +2,27 @@
 function User(firstName, lastName, showGreeting = true) {
     this.firstName = firstName;
     this.lastName = lastName;
-
-    this.speak = function () {
-        if (showGreeting) {
-            alert(`Hi ${this.firstName} ${this.lastName}, welcome to the Guitar Store!`);
-        }
-    };
-
-    this.speak();
 }
-/*sessionStorage, guardar nombre y apellido del usuario y si ya existe en el sessionStorage que diga bienvenido devuelta*/
+/*sessionStorage, guardar nombre y apellido del usuario y si ya existe en el sessionStorage que diga bienvenido devuelta y comienzo de uso de lo aprendido en clase de DOM*/
 let firstName = sessionStorage.getItem("firstName");
 let lastName = sessionStorage.getItem("lastName");
 
+const welcomeMessage = document.getElementById("welcome-message");
+/*si no encuentra name y lastname en sessionstorage...*/
 if (!firstName || !lastName) {
-    firstName = prompt("Enter your first name:");
-    lastName = prompt("Enter your last name:");
+  firstName = prompt("Enter your first name:");
+  lastName = prompt("Enter your last name:");
 
-    sessionStorage.setItem("firstName", firstName);
-    sessionStorage.setItem("lastName", lastName);
+  sessionStorage.setItem("firstName", firstName);
+  sessionStorage.setItem("lastName", lastName);
 
-    let user = new User(firstName, lastName);
+  welcomeMessage.innerHTML = `Welcome ${firstName} ${lastName} to Mr. Hyde Guitar Store!`; /*cambio de texto de H2 usando innerHTML*/
+  let user = new User(firstName, lastName);
 } else {
-
-    alert(`Welcome back, ${firstName} ${lastName}!`);
-    let user = new User(firstName, lastName, false);
+  welcomeMessage.innerHTML = `Welcome back, ${firstName} ${lastName}!`; /*innerHTML*/
+  let user = new User(firstName, lastName);
 }
+
 /*array de productos*/
 const products = [
   { id: 1, name: "Stratocaster", brand: "Fender", color: "Black", price: 4000 },
@@ -58,7 +53,6 @@ if (savedCart) {
 }
 /* primer funcion*/
 function showGuitarOptions() {
-    console.clear();
 
        let optionsText = "Enter the number of the guitar you want to add:\n";
        /*for each*/
@@ -70,8 +64,13 @@ function showGuitarOptions() {
     optionsText += "10% discount over $10,000\n20% over $20,000\n30% over $30,000";
 
     let guitarChoice = prompt(optionsText);
-
+    if (guitarChoice === null) {
+  alert("See you next time!");
+  return; 
+    }
+    /*se cambio el switch por if/else if/else ya que las guitarras estan en un const products, si se agrega una guitarra nueva se agrega en const products en lugar de sumar un case al switch, ademas de mas organizado y facil de mantener, tambien por no poder usar find en un switch */
     if (guitarChoice === '0') {
+        console.log("User finished shopping");
         showCart();
 
     } else if (guitarChoice.toLowerCase() === 's') {  /*uso de "ToLowerCase" por si el usuario ingresa una "s" mayuscula*/
@@ -81,25 +80,16 @@ function showGuitarOptions() {
     /*en este caso se usa find xq busca un solo resultado por id*/
     const selectedProduct = products.find(product => product.id === parseInt(guitarChoice)); /*parseInt para pasar el string que siempre devuelve el prompt a numero*/
     if (selectedProduct) {
+        console.log(`User choice: ${selectedProduct.name}`);
         addToCart(selectedProduct.name, selectedProduct.price);
     } else {
+        console.log("User entered invalid option:", guitarChoice);
         alert("Invalid option. Please enter a valid number or 's' to search.");
         showGuitarOptions();
     }
 }
     
-    /*se cambio el switch por if/else if/else ya que las guitarras estan en un const products, si se agrega una guitarra nueva se agrega en const products en lugar de sumar un case al switch, ademas de mas organizado y facil de mantener, tambien por no poder usar find en un switch */
-    if (guitarChoice === '0') {
-        console.log("User finished shopping");
-        showCart();
-    } else if (selectedProduct) {
-        console.log(`User choice: ${selectedProduct.name}`);
-        addToCart(selectedProduct.name, selectedProduct.price);
-    } else {
-        console.log("User entered invalid option:", guitarChoice);
-        alert("Invalid option. Please enter a valid number.");
-        showGuitarOptions();
-    }
+
 }
 /*arrow function*/
 const addToCart = (guitarName, price) => {
