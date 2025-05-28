@@ -17,10 +17,10 @@ if (!firstName || !lastName) {
   sessionStorage.setItem("lastName", lastName);
 
   welcomeMessage.innerHTML = `Welcome ${firstName} ${lastName} to Mr. Hyde Guitar Store!`; /*cambio de texto de H2 usando innerHTML*/
-  let user = new User(firstName, lastName);
+
 } else {
   welcomeMessage.innerHTML = `Welcome back, ${firstName} ${lastName}!`; /*innerHTML*/
-  let user = new User(firstName, lastName);
+  
 }
 
 /*array de productos*/
@@ -31,14 +31,14 @@ const products = [
   { id: 4, name: "Sg", brand: "Gibson", color: "Red", price: 7000 },
   { id: 5, name: "Flying v", brand: "Jackson", color: "Red", price: 8000 },
   { id: 6, name: "Les Paul", brand: "LTD", color: "Black", price: 9000 },
-  { id: 7, name: "Explorer", brand: "LTD", color: "Black", price: 10000 },
-  { id: 8, name: "Randy Rhoads", brand: "ESP", color: "Black-Green", price: 10500 },
+  { id: 7, name: "Max Cavalera", brand: "LTD", color: "Black", price: 10000 },
+  { id: 8, name: " Alexi Laiho", brand: "ESP", color: "Black-Green", price: 10500 },
   { id: 9, name: "Explorer", brand: "Dean", color: "Black", price: 20000 },
-  { id: 10, name: "Flying v", brand: "Jackson", color: "Red-Black", price: 20500 },
+  { id: 10, name: "Arrow", brand: "Jackson", color: "Red-Black", price: 20500 },
   { id: 11, name: "Randy Rhoads", brand: "ESP", color: "Black", price: 30500 },
   { id: 12, name: "Prestige", brand: "Ibanez", color: "Gray", price: 40000 },
-  { id: 13, name: "Dinky", brand: "Jackson", color: "Blue-Pink", price: 40500 },
-  { id: 14, name: "Prestige", brand: "Ibanez", color: "Blue", price: 50000 },
+  { id: 13, name: "Soloist", brand: "Jackson", color: "Blue-Pink", price: 40500 },
+  { id: 14, name: "Kiko Loureiro", brand: "Ibanez", color: "Blue", price: 50000 },
   { id: 15, name: "EC-1000", brand: "LTD", color: "Orange", price: 50500 }
 ];
 
@@ -54,14 +54,9 @@ if (savedCart) {
 /* primer funcion*/
 function showGuitarOptions() {
 
-       let optionsText = "Enter the number of the guitar you want to add:\n";
-       /*for each*/
-    products.forEach(product => {
-        optionsText += `${product.id}. ${product.name} - ${product.brand} (${product.color}) - $${product.price}\n`;
-    });
-    optionsText += "Type 's' to search for a guitar by model.\n";
-    optionsText += "Type '0' to finish.\n";
-    optionsText += "10% discount over $10,000\n20% over $20,000\n30% over $30,000";
+       let optionsText = "Type 's' to search for a guitar by model.\n"; 
+            optionsText += "Type '0' to finish.\n";
+            optionsText += "Press Cancel to exit the menu.";
 
     let guitarChoice = prompt(optionsText);
     if (guitarChoice === null) {
@@ -88,8 +83,6 @@ function showGuitarOptions() {
         showGuitarOptions();
     }
 }
-    
-
 }
 /*arrow function*/
 const addToCart = (guitarName, price) => {
@@ -199,5 +192,24 @@ function searchGuitarByModel() {
 
     /* alert(message); */
 }
+
 /*llamada de funcion*/
 showGuitarOptions();
+/*addEventListener getElementByClassName*/
+const nodosBotones = document.getElementsByClassName('btn-showcart');
+nodosBotones[0].addEventListener('click', ()=>{
+    showCart();
+})
+
+
+products.forEach(product => {
+  const div = document.getElementById(product.id);
+  if (div) {
+    const btn = div.querySelector('button');
+    if (btn) {
+      btn.addEventListener('click', () => {
+        addToCart(product.name, product.price);
+      });
+    }
+  }
+});
