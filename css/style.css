@@ -114,14 +114,15 @@ h1 {
 
 .cart-btn-container {
     display: flex;
-    justify-content: flex-end;  /* Alinea el botón a la derecha */
+    flex-direction: row;  
+    justify-content: flex-end;
     padding: 20px;
   }
 
   .btn-showcart {
-    background-color: black;     /* Fondo negro */
-    color: white;                /* Texto blanco */
-    border: 2px solid blue;      /* Borde azul */
+    background-color: black;     
+    color: white;                
+    border: 2px solid blue;      
     padding: 10px 20px;
     border-radius: 8px;
     font-size: 16px;
@@ -130,6 +131,61 @@ h1 {
   }
 
   .btn-showcart:hover {
-    background-color: white;      /* Fondo azul al pasar el mouse */
-    color: blue;                /* Texto negro */
+    background-color: white;      
+    color: blue;                
   }
+
+  input[type="text"] {
+  width: 250px;
+  padding: 12px 15px;
+  margin: 8px 5px;
+  border: 2px solid black;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  outline: none;
+  box-shadow: none;
+}
+
+input[type="text"]:focus {
+  border-color: #5A9;
+  box-shadow: 0 0 8px rgba(90, 160, 90, 0.6);
+}
+
+button#saveName, button#searchBtn {
+  padding: 12px 25px;
+  margin: 8px 5px;
+  border: 2px solid blue;
+  background-color: black; 
+  color: white;
+  font-size: 18px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button#saveName:hover, button#searchBtn:hover {
+  background-color: white; 
+  color: blue;
+}
+button#showAllBtn,
+button.btn-showcart {
+  padding: 12px 25px;
+  margin: 8px 5px;
+  border: 2px solid blue;
+  background-color: black; 
+  color: white;
+  font-size: 18px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+button#showAllBtn:hover,
+button.btn-showcart:hover {
+  background-color: white; 
+  color: blue;
+}
+

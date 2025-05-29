@@ -1,8 +1,3 @@
-/*funcion constructora*/
-function User(firstName, lastName, showGreeting = true) {
-    this.firstName = firstName;
-    this.lastName = lastName;
-}
 /*sessionStorage, guardar nombre y apellido del usuario y si ya existe en el sessionStorage que diga bienvenido devuelta y comienzo de uso de lo aprendido en clase de DOM*/
 let firstName = sessionStorage.getItem("firstName");
 let lastName = sessionStorage.getItem("lastName");
@@ -10,17 +5,25 @@ let lastName = sessionStorage.getItem("lastName");
 const welcomeMessage = document.getElementById("welcome-message");
 /*si no encuentra name y lastname en sessionstorage...*/
 if (!firstName || !lastName) {
-  firstName = prompt("Enter your first name:");
-  lastName = prompt("Enter your last name:");
+  const button = document.getElementById("saveName");
 
-  sessionStorage.setItem("firstName", firstName);
-  sessionStorage.setItem("lastName", lastName);
+  button.addEventListener("click", () => {
+    const firstNameInput = document.getElementById("firstNameInput").value; /*tomar el "value" que ingreso el usuario*/
+    const lastNameInput = document.getElementById("lastNameInput").value; /*tomar el "value" que ingreso el usuario*/
 
-  welcomeMessage.innerHTML = `Welcome ${firstName} ${lastName} to Mr. Hyde Guitar Store!`; /*cambio de texto de H2 usando innerHTML*/
+    /*si ingresa nombre y apellido lo guarda en el sessionstorage */
+    if (firstNameInput && lastNameInput) {
+      sessionStorage.setItem("firstName", firstNameInput);
+      sessionStorage.setItem("lastName", lastNameInput);
+        /*da la bienvenida al usuario con su nombre y apellido */
+      welcomeMessage.innerHTML = `Welcome ${firstNameInput} ${lastNameInput} to Mr. Hyde Guitar Store!`;
+    } else { /*sino solamente da la bienvenida sin nombrar al usuario*/
+      welcomeMessage.innerHTML = `Welcome to Mr. Hyde Guitar Store!`;
+    }
+  });
 
-} else {
-  welcomeMessage.innerHTML = `Welcome back, ${firstName} ${lastName}!`; /*innerHTML*/
-  
+} else { /*si ya encuentra los datos en el sessionstorage da la bienvenida nuevamente*/
+  welcomeMessage.innerHTML = `Welcome back, ${firstName} ${lastName}!`;
 }
 
 /*array de productos*/
@@ -51,39 +54,6 @@ const savedCart = localStorage.getItem("cart");
 if (savedCart) {
     cart = JSON.parse(savedCart); /*aca vuelve del string a array nuevamente ya que estaba en localstorage que solo guarda strings a array nuevamente*/
 }
-/* primer funcion*/
-function showGuitarOptions() {
-
-       let optionsText = "Type 's' to search for a guitar by model.\n"; 
-            optionsText += "Type '0' to finish.\n";
-            optionsText += "Press Cancel to exit the menu.";
-
-    let guitarChoice = prompt(optionsText);
-    if (guitarChoice === null) {
-  alert("See you next time!");
-  return; 
-    }
-    /*se cambio el switch por if/else if/else ya que las guitarras estan en un const products, si se agrega una guitarra nueva se agrega en const products en lugar de sumar un case al switch, ademas de mas organizado y facil de mantener, tambien por no poder usar find en un switch */
-    if (guitarChoice === '0') {
-        console.log("User finished shopping");
-        showCart();
-
-    } else if (guitarChoice.toLowerCase() === 's') {  /*uso de "ToLowerCase" por si el usuario ingresa una "s" mayuscula*/
-        searchGuitarByModel();
-
-    } else {
-    /*en este caso se usa find xq busca un solo resultado por id*/
-    const selectedProduct = products.find(product => product.id === parseInt(guitarChoice)); /*parseInt para pasar el string que siempre devuelve el prompt a numero*/
-    if (selectedProduct) {
-        console.log(`User choice: ${selectedProduct.name}`);
-        addToCart(selectedProduct.name, selectedProduct.price);
-    } else {
-        console.log("User entered invalid option:", guitarChoice);
-        alert("Invalid option. Please enter a valid number or 's' to search.");
-        showGuitarOptions();
-    }
-}
-}
 /*arrow function*/
 const addToCart = (guitarName, price) => {
     /*uso de some para ver si un producto ya esta en el carrito (x el uso de localstorage para el carrito) y se complementa con un if y un else, dado el caso de que ya este en el carrito que muestre que el producto ya se encuentra en el carrito o sino (else) lo agrega al carrito */
@@ -96,15 +66,18 @@ const addToCart = (guitarName, price) => {
         alert(`${guitarName} added to the cart for $${price}.`);
         console.log(`Added ${guitarName} to cart with price $${price}`);
     }
-    showGuitarOptions();
 };
+
+/*reduce*/
+function calculateTotal() {
+    return cart.reduce((acc, item) => acc + item.price, 0);
+}
 
 /*segunda function*/
 function showCart() {
     if (cart.length === 0) {
         alert("Your cart is empty.");
         console.log("Cart is empty");
-        showGuitarOptions();
         return;
     }
 
@@ -113,8 +86,8 @@ function showCart() {
     for (let i = 0; i < cart.length; i++) {
         cartSummary += `${cart[i].name} - $${cart[i].price}\n`;
     };
-    /*reduce*/
-    total = cart.reduce((accumulator, item) => accumulator + item.price, 0);
+    
+    total = calculateTotal();
     alert(cartSummary);
     console.log(cartSummary);
     /*confirm*/
@@ -127,14 +100,10 @@ function showCart() {
         localStorage.removeItem("cart");
         alert("Your cart has been cleared.");
         console.log("Cart cleared");
-        showGuitarOptions();
-    } else {
-        applyDiscount();
-        return;
-    }
+    } 
 }
 /*tercer function*/
-function applyDiscount() {
+function applyDiscount(total) {
     let discount = 0;
     if (total >= 30000) {
         discount = 30;
@@ -147,10 +116,17 @@ function applyDiscount() {
     let finalPrice = total - (total * (discount / 100));
     alert(`Your total is $${total}. Discount applied: ${discount}%. Final price: $${finalPrice}`);
     console.log(`Final price after discount: $${finalPrice}`);
-    showGuitarOptions();
 }
+document.getElementById('finalizePurchaseBtn').addEventListener('click', () => {
+    if (cart.length === 0) {
+        alert("Your cart is empty.");
+        return;
+    }
+    const totalAmount = calculateTotal();
+    applyDiscount(totalAmount);
+});
 function searchGuitarByModel() {
-    const searchGuitar = prompt("Enter the guitar model to search:").toUpperCase();
+    const searchGuitar = document.getElementById('modelSearchInput').value.trim().toUpperCase(); /*trim para eliminar espacios en blanco al principio y final*/
 
     /*uso de filter xq no te da un solo resultado sino todo que cumpla con la funcion*/
     const filtered = products.filter(guitar => 
@@ -166,48 +142,48 @@ function searchGuitarByModel() {
     const sorted = filtered.sort((a, b) => a.price - b.price);
     /*se enumeran los resultados para poder elegir*/
     let message = "Search Results:\n";
-    sorted.forEach((guitar, index) => {
-        message += `${index + 1}. ${guitar.name} - ${guitar.brand} - $${guitar.price}\n`;
+     sorted.forEach(guitar => {
+        message += `${guitar.name} - ${guitar.brand} - $${guitar.price}\n`;
     });
 
-    message += "Enter the number to add a guitar to your cart.\n";
-    message += "Or type '0' to go back to the main menu.";
+    alert(message);
+     products.forEach(product => {
+        const div = document.getElementById(product.id);
+        if (div) {
+            if (filtered.includes(product)) {
+                div.style.display = "block"; /*devuelve la guitarra encontrada*/
+            } else {
+                div.style.display = "none";
+            }
+        }
+    });
 
-    const choice = prompt(message);
-
-    if (choice === '0') {
-        showGuitarOptions(); 
-        return;
-    }
-
-    const index = parseInt(choice) - 1;
-
-    if (index >= 0 && index < sorted.length) {
-        const selected = sorted[index];
-        addToCart(selected.name, selected.price); 
-    } else {
-        alert("Invalid option. Returning to main menu.");
-        showGuitarOptions();
-    }
-
-    /* alert(message); */
 }
 
-/*llamada de funcion*/
-showGuitarOptions();
+document.getElementById('showAllBtn').addEventListener('click', () => {
+  products.forEach(product => {
+    const div = document.getElementById(product.id);
+    if (div) {
+      div.style.display = "block";  // mostrar todos los divs
+    }
+  });
+});
+
+
+    document.getElementById('searchBtn').addEventListener('click', searchGuitarByModel);
 /*addEventListener getElementByClassName*/
 const nodosBotones = document.getElementsByClassName('btn-showcart');
 nodosBotones[0].addEventListener('click', ()=>{
     showCart();
 })
 
-
-products.forEach(product => {
-  const div = document.getElementById(product.id);
-  if (div) {
-    const btn = div.querySelector('button');
+/*agregar al carrito */
+products.forEach(product => {  /*for each*/
+  const div = document.getElementById(product.id); /*getelementbyid*/
+    if (div) {
+    const btn = div.querySelector('button'); /*queryselector*/
     if (btn) {
-      btn.addEventListener('click', () => {
+      btn.addEventListener('click', () => { 
         addToCart(product.name, product.price);
       });
     }

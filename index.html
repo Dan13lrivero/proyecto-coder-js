@@ -34,6 +34,9 @@
     </header>
     <section id="home">
         <h1>Mr Hyde Guitars</h1>
+        <input type="text" id="firstNameInput" placeholder="Enter your first name">
+        <input type="text" id="lastNameInput" placeholder="Enter your last name">
+        <button class="btn-start" id="saveName">Start</button>
         <h2 id="welcome-message"></h2>
         <p class="marketing-message">
   🎸 <strong>Welcome to Mr. Hyde Guitar Store!</strong> 🎸<br>
@@ -46,9 +49,14 @@
     </section>
     
     <section class="menu py-5 my-5" id="guitars">
-      <h2 class="title-guitars">Guitars</h2>        
+      <h2 class="title-guitars">Guitars</h2>   
+      <input type="text" id="modelSearchInput" placeholder="Enter guitar model">
+      <button id="searchBtn">Search</button>
+
         <div class="cart-btn-container">
+          <button id="showAllBtn">Show All</button>
           <button class="btn-showcart">Show Cart</button>
+          <button id="finalizePurchaseBtn" class="btn-showcart">Finalize Purchase</button>
         </div>
             <div class="box-container">
                 <div class="box" id="1">
