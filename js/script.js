@@ -7,7 +7,7 @@ const welcomeMessage = document.getElementById("welcome-message");
 if (!firstName || !lastName) {
   const button = document.getElementById("saveName");
 
-  button.addEventListener("click", () => {
+    button.addEventListener("click", () => {
     const firstNameInput = document.getElementById("firstNameInput").value; /*tomar el "value" que ingreso el usuario*/
     const lastNameInput = document.getElementById("lastNameInput").value; /*tomar el "value" que ingreso el usuario*/
 
@@ -73,7 +73,6 @@ function calculateTotal() {
     return cart.reduce((acc, item) => acc + item.price, 0);
 }
 
-/*segunda function*/
 function showCart() {
     if (cart.length === 0) {
         alert("Your cart is empty.");
@@ -102,7 +101,6 @@ function showCart() {
         console.log("Cart cleared");
     } 
 }
-/*tercer function*/
 function applyDiscount(total) {
     let discount = 0;
     if (total >= 30000) {
@@ -164,7 +162,7 @@ document.getElementById('showAllBtn').addEventListener('click', () => {
   products.forEach(product => {
     const div = document.getElementById(product.id);
     if (div) {
-      div.style.display = "block";  // mostrar todos los divs
+      div.style.display = "block";  /*mostrar todos los divs*/
     }
   });
 });
