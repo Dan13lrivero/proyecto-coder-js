@@ -27,7 +27,7 @@ if (!firstName || !lastName) {
 }
 
 /*array de productos*/
-const products = [
+/* const products = [
   { id: 1, name: "Stratocaster", brand: "Fender", color: "Black", price: 4000 },
   { id: 2, name: "Telecaster", brand: "Squier", color: "Natural Wood", price: 5000 },
   { id: 3, name: "Dinky", brand: "Jackson", color: "Green", price: 6000 },
@@ -43,8 +43,38 @@ const products = [
   { id: 13, name: "Soloist", brand: "Jackson", color: "Blue-Pink", price: 40500 },
   { id: 14, name: "Kiko Loureiro", brand: "Ibanez", color: "Blue", price: 50000 },
   { id: 15, name: "EC-1000", brand: "LTD", color: "Orange", price: 50500 }
-];
-
+]; */
+let listProducts = [];
+function getProducts(){
+  const URL = "https://683f056f1cd60dca33de000c.mockapi.io/api/GuitarShopAPI/products";
+  fetch(URL)
+    .then(response => response.json()) /*.json pasa de objeto response a objeto js real*/
+    .then(products => {
+      console.log(products);
+      listProducts = products;
+      console.log(listProducts);
+      renderProductButtons(); 
+    })
+    .catch(error => console.log("Something went wrong", error))
+    .finally(()=> Swal.fire({
+      title: "End of asynchronous process",
+      icon: "success",
+      confirmButtonText: "Ok"
+    }));
+}
+function renderProductButtons() {
+  listProducts.forEach(product => {
+    const div = document.getElementById(product.id);
+    if (div) {
+      const btn = div.querySelector("button");
+      if (btn) {
+        btn.addEventListener("click", () => {
+          addToCart(product.name, Number(product.price));
+        });
+      }
+    }
+  });
+}
 /* array */
 let cart = [];
 /*variable */
@@ -58,12 +88,33 @@ if (savedCart) {
 const addToCart = (guitarName, price) => {
     /*uso de some para ver si un producto ya esta en el carrito (x el uso de localstorage para el carrito) y se complementa con un if y un else, dado el caso de que ya este en el carrito que muestre que el producto ya se encuentra en el carrito o sino (else) lo agrega al carrito */
     const isInCart = cart.some(item => item.name === guitarName);
-    if (isInCart) {
-        alert(`${guitarName} is already in the cart.`);
-    } else {
+    if (isInCart) { 
+        Swal.fire({
+          title: `${guitarName} is already in the cart.`,
+          icon: "info",
+          confirmButtonText: "Ok"
+        });
+    } else {  
         cart.push({ name: guitarName, price: price });
         localStorage.setItem("cart", JSON.stringify(cart));
-        alert(`${guitarName} added to the cart for $${price}.`);
+        Swal.fire({
+           title: `${guitarName} added to the cart for $${price}.`,
+          icon: "success",
+          confirmButtonText: "Ok"
+        });
+        Toastify({
+          text: "Remember to check out our discounts shown in the Home section.",
+          duration: 3000,
+          gravity: "top",
+          position: "right",
+          style: {
+            background: "black",
+            color: "white",
+            borderRadius: "8px",
+            padding: "16px 24px",
+            fontSize: "38px"
+          }
+        }).showToast();
         console.log(`Added ${guitarName} to cart with price $${price}`);
     }
 };
@@ -74,8 +125,12 @@ function calculateTotal() {
 }
 
 function showCart() {
-    if (cart.length === 0) {
-        alert("Your cart is empty.");
+    if (cart.length === 0) {  
+        Swal.fire({
+           title: "Your cart is empty.",
+          icon: "info",
+          confirmButtonText: "Ok"
+        });
         console.log("Cart is empty");
         return;
     }
@@ -87,7 +142,12 @@ function showCart() {
     };
     
     total = calculateTotal();
-    alert(cartSummary);
+    Swal.fire({
+    title: 'Your Cart',
+    text: cartSummary,
+    icon: 'info',
+    });
+
     console.log(cartSummary);
     /*confirm*/
     let cleanCart = confirm("Do you want to clean the cart?");
@@ -95,9 +155,13 @@ function showCart() {
     if (cleanCart) {
         cart = [];
         total = 0;
-        /*limpiar el carrito de localstorage -removeItem*/
+        /*limpiar el carrito de localstorage -removeItem*/  
         localStorage.removeItem("cart");
-        alert("Your cart has been cleared.");
+        Swal.fire({
+            title: "Your cart has been cleared.",
+            icon: "success",
+            confirmButtonText: "Ok"
+        });
         console.log("Cart cleared");
     } 
 }
@@ -111,13 +175,21 @@ function applyDiscount(total) {
         discount = 10;
     }
 
-    let finalPrice = total - (total * (discount / 100));
-    alert(`Your total is $${total}. Discount applied: ${discount}%. Final price: $${finalPrice}`);
+    let finalPrice = total - (total * (discount / 100));  
+    Swal.fire({
+      title: `Your total is $${total}. Discount applied: ${discount}%. Final price: $${finalPrice}`,
+      icon: "success",
+      confirmButtonText: "Ok"
+    });
     console.log(`Final price after discount: $${finalPrice}`);
 }
 document.getElementById('finalizePurchaseBtn').addEventListener('click', () => {
-    if (cart.length === 0) {
-        alert("Your cart is empty.");
+    if (cart.length === 0) {  
+        Swal.fire({
+          title: "Your cart is empty.",
+         icon: "warning",
+         confirmButtonText: "Ok"
+        });
         return;
     }
     const totalAmount = calculateTotal();
@@ -127,12 +199,16 @@ function searchGuitarByModel() {
     const searchGuitar = document.getElementById('modelSearchInput').value.trim().toUpperCase(); /*trim para eliminar espacios en blanco al principio y final*/
 
     /*uso de filter xq no te da un solo resultado sino todo que cumpla con la funcion*/
-    const filtered = products.filter(guitar => 
+    const filtered = listProducts.filter(guitar => 
         guitar.name.toUpperCase().includes(searchGuitar)
     );
 
-    if (filtered.length === 0) {
-        alert("No guitars found matching your search.");
+    if (filtered.length === 0) {  
+        Swal.fire({
+          title: "No guitars found matching your search.",
+         icon: "warning",
+         confirmButtonText: "Ok"
+        });
         return;
     }
 
@@ -144,8 +220,12 @@ function searchGuitarByModel() {
         message += `${guitar.name} - ${guitar.brand} - $${guitar.price}\n`;
     });
 
-    alert(message);
-     products.forEach(product => {
+    Swal.fire({
+      title: message,
+      icon: 'success',
+      confirmButtonText: 'Ok'
+    });
+     listProducts.forEach(product => {
         const div = document.getElementById(product.id);
         if (div) {
             if (filtered.includes(product)) {
@@ -159,7 +239,7 @@ function searchGuitarByModel() {
 }
 
 document.getElementById('showAllBtn').addEventListener('click', () => {
-  products.forEach(product => {
+  listProducts.forEach(product => {
     const div = document.getElementById(product.id);
     if (div) {
       div.style.display = "block";  /*mostrar todos los divs*/
@@ -174,16 +254,5 @@ const nodosBotones = document.getElementsByClassName('btn-showcart');
 nodosBotones[0].addEventListener('click', ()=>{
     showCart();
 })
+getProducts();
 
-/*agregar al carrito */
-products.forEach(product => {  /*for each*/
-  const div = document.getElementById(product.id); /*getelementbyid*/
-    if (div) {
-    const btn = div.querySelector('button'); /*queryselector*/
-    if (btn) {
-      btn.addEventListener('click', () => { 
-        addToCart(product.name, product.price);
-      });
-    }
-  }
-});
