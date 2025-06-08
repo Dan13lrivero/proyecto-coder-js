@@ -1,49 +1,34 @@
-/*sessionStorage, guardar nombre y apellido del usuario y si ya existe en el sessionStorage que diga bienvenido devuelta y comienzo de uso de lo aprendido en clase de DOM*/
-let firstName = sessionStorage.getItem("firstName");
-let lastName = sessionStorage.getItem("lastName");
+function displayWelcomeMessage() {
+  /*sessionStorage, guardar nombre y apellido del usuario y si ya existe en el sessionStorage que diga bienvenido devuelta y comienzo de uso de lo aprendido en clase de DOM*/
+  let firstName = sessionStorage.getItem("firstName");
+  let lastName = sessionStorage.getItem("lastName");
 
-const welcomeMessage = document.getElementById("welcome-message");
-/*si no encuentra name y lastname en sessionstorage...*/
-if (!firstName || !lastName) {
-  const button = document.getElementById("saveName");
+  const welcomeMessage = document.getElementById("welcome-message");
+  /*si no encuentra name y lastname en sessionstorage...*/
+  if (!firstName || !lastName) {
+    const button = document.getElementById("saveName");
 
     button.addEventListener("click", () => {
-    const firstNameInput = document.getElementById("firstNameInput").value; /*tomar el "value" que ingreso el usuario*/
-    const lastNameInput = document.getElementById("lastNameInput").value; /*tomar el "value" que ingreso el usuario*/
+      const firstNameInput = document.getElementById("firstNameInput").value; /*tomar el "value" que ingreso el usuario*/
+      const lastNameInput = document.getElementById("lastNameInput").value; /*tomar el "value" que ingreso el usuario*/
 
-    /*si ingresa nombre y apellido lo guarda en el sessionstorage */
-    if (firstNameInput && lastNameInput) {
-      sessionStorage.setItem("firstName", firstNameInput);
-      sessionStorage.setItem("lastName", lastNameInput);
+      /*si ingresa nombre y apellido lo guarda en el sessionstorage */
+      if (firstNameInput && lastNameInput) {
+        sessionStorage.setItem("firstName", firstNameInput);
+        sessionStorage.setItem("lastName", lastNameInput);
         /*da la bienvenida al usuario con su nombre y apellido */
-      welcomeMessage.innerHTML = `Welcome ${firstNameInput} ${lastNameInput} to Mr. Hyde Guitar Store!`;
-    } else { /*sino solamente da la bienvenida sin nombrar al usuario*/
-      welcomeMessage.innerHTML = `Welcome to Mr. Hyde Guitar Store!`;
-    }
-  });
+        welcomeMessage.innerHTML = `Welcome ${firstNameInput} ${lastNameInput} to Mr. Hyde Guitar Store!`;
+      } else { /*sino solamente da la bienvenida sin nombrar al usuario*/
+        welcomeMessage.innerHTML = `Welcome to Mr. Hyde Guitar Store!`;
+      }
+    });
 
-} else { /*si ya encuentra los datos en el sessionstorage da la bienvenida nuevamente*/
-  welcomeMessage.innerHTML = `Welcome back, ${firstName} ${lastName}!`;
+  } else { /*si ya encuentra los datos en el sessionstorage da la bienvenida nuevamente*/
+    welcomeMessage.innerHTML = `Welcome back, ${firstName} ${lastName}!`;
+  }
 }
+displayWelcomeMessage();
 
-/*array de productos*/
-/* const products = [
-  { id: 1, name: "Stratocaster", brand: "Fender", color: "Black", price: 4000 },
-  { id: 2, name: "Telecaster", brand: "Squier", color: "Natural Wood", price: 5000 },
-  { id: 3, name: "Dinky", brand: "Jackson", color: "Green", price: 6000 },
-  { id: 4, name: "Sg", brand: "Gibson", color: "Red", price: 7000 },
-  { id: 5, name: "Flying v", brand: "Jackson", color: "Red", price: 8000 },
-  { id: 6, name: "Les Paul", brand: "LTD", color: "Black", price: 9000 },
-  { id: 7, name: "Max Cavalera", brand: "LTD", color: "Black", price: 10000 },
-  { id: 8, name: " Alexi Laiho", brand: "ESP", color: "Black-Green", price: 10500 },
-  { id: 9, name: "Explorer", brand: "Dean", color: "Black", price: 20000 },
-  { id: 10, name: "Arrow", brand: "Jackson", color: "Red-Black", price: 20500 },
-  { id: 11, name: "Randy Rhoads", brand: "ESP", color: "Black", price: 30500 },
-  { id: 12, name: "Prestige", brand: "Ibanez", color: "Gray", price: 40000 },
-  { id: 13, name: "Soloist", brand: "Jackson", color: "Blue-Pink", price: 40500 },
-  { id: 14, name: "Kiko Loureiro", brand: "Ibanez", color: "Blue", price: 50000 },
-  { id: 15, name: "EC-1000", brand: "LTD", color: "Orange", price: 50500 }
-]; */
 let listProducts = [];
 function getProducts(){
   const URL = "https://683f056f1cd60dca33de000c.mockapi.io/api/GuitarShopAPI/products";
@@ -145,26 +130,36 @@ function showCart() {
     Swal.fire({
     title: 'Your Cart',
     text: cartSummary,
-    icon: 'info',
+    icon: 'success',
     });
 
     console.log(cartSummary);
-    /*confirm*/
-    let cleanCart = confirm("Do you want to clean the cart?");
-    /*if else*/
-    if (cleanCart) {
-        cart = [];
-        total = 0;
-        /*limpiar el carrito de localstorage -removeItem*/  
-        localStorage.removeItem("cart");
+    } 
+function clearCart() {
+    if (cart.length === 0) {
         Swal.fire({
-            title: "Your cart has been cleared.",
-            icon: "success",
+            title: "Cart is already empty.",
+            icon: "info",
             confirmButtonText: "Ok"
         });
-        console.log("Cart cleared");
-    } 
+        return;
+    }
+
+    cart = [];
+    total = 0;
+    localStorage.removeItem("cart");
+
+    Swal.fire({
+        title: "Your cart has been cleared.",
+        icon: "success",
+        confirmButtonText: "Ok"
+    });
+
+    console.log("Cart cleared");
 }
+
+document.getElementById('clearCartBtn').addEventListener('click', clearCart);
+
 function applyDiscount(total) {
     let discount = 0;
     if (total >= 30000) {
@@ -180,6 +175,12 @@ function applyDiscount(total) {
       title: `Your total is $${total}. Discount applied: ${discount}%. Final price: $${finalPrice}`,
       icon: "success",
       confirmButtonText: "Ok"
+    }).then(() => {
+      /*Limpiar el carrito luego de mostrar el mensaje*/
+      cart = [];
+      total = 0;
+      localStorage.removeItem("cart");
+      console.log("Cart cleared after purchase");
     });
     console.log(`Final price after discount: $${finalPrice}`);
 }

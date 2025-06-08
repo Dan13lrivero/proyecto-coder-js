@@ -155,7 +155,7 @@ button#saveName:hover, button#searchBtn:hover {
   color: blue;
 }
 button#showAllBtn,
-button.btn-showcart {
+button.btn-showcart, .btn-cleancart {
   padding: 12px 25px;
   margin: 8px 5px;
   border: 2px solid blue;
@@ -174,13 +174,13 @@ button.btn-showcart:hover {
 }
 @media screen and (max-width: 320px) and (max-height: 768px) {
   #home h1 {
-    font-size: 2.5rem !important;       /* Tamaño legible y pequeño */
-    text-align: center !important;      /* Centrar texto */
-    white-space: normal !important;     /* Permitir salto de línea si es necesario */
-    width: 100% !important;              /* Que ocupe todo el ancho disponible */
-    margin: 0 auto !important;           /* Centrar bloque si hace falta */
-    padding: 0 10px;                    /* Padding para que no pegue en bordes */
-    overflow-wrap: break-word !important; /* Que la palabra se divida si es muy larga */
+    font-size: 2.5rem !important;       
+    text-align: center !important;      
+    white-space: normal !important;     
+    width: 100% !important;             
+    margin: 0 auto !important;          
+    padding: 0 10px;                    
+    overflow-wrap: break-word !important; 
   }
 }
 
