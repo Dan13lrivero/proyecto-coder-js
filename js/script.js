@@ -238,7 +238,6 @@ function searchGuitarByModel() {
     });
 
 }
-
 document.getElementById('showAllBtn').addEventListener('click', () => {
   listProducts.forEach(product => {
     const div = document.getElementById(product.id);

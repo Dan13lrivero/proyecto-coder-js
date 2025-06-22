@@ -184,4 +184,279 @@ button.btn-showcart:hover {
   }
 }
 
+/* Media Queries para Tablet (768px y menos) */
+@media screen and (max-width: 768px) {
+    h1, .title-guitars {
+        font-size: 4rem;
+        padding: 0.5rem;
+        text-align: center;
+    }
+    
+    #welcome-message {
+        font-size: 3rem;
+        padding: 1rem;
+    }
+    
+    .box-container {
+        gap: 1.5rem;
+        padding: 1rem;
+    }
+    
+    .box {
+        max-width: 280px;
+        padding: 1rem;
+    }
+    
+    .box img {
+        height: 400px;
+    }
+    
+    .box h3 {
+        font-size: 1.8rem;
+    }
+    
+    .nav-link {
+        font-size: 1.8rem;
+    }
+    
+    .cart-btn-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 1rem;
+    }
+    
+    .btn-showcart, .btn-cleancart, #saveName, #searchBtn, #showAllBtn, #finalizePurchaseBtn {
+        width: 100%;
+        max-width: 250px;
+        margin: 0.25rem 0;
+    }
+    
+    input[type="text"] {
+        width: 100%;
+        max-width: 250px;
+        margin: 0.5rem auto;
+        display: block;
+    }
+    
+    .marketing-message {
+        font-size: 1.5rem;
+        padding: 1rem;
+        margin: 1rem auto;
+        max-width: 90%;
+    }
+    
+    .price {
+        font-size: 1.5rem;
+    }
+    
+    .price span {
+        font-size: 1rem;
+    }
+    
+    .box p {
+        font-size: 1rem;
+    }
+}
 
+/* Media Queries para Mobile (480px y menos) */
+@media screen and (max-width: 480px) {
+    h1, .title-guitars {
+        font-size: 2.5rem;
+        padding: 0.25rem;
+        text-align: center;
+        white-space: normal;
+        overflow-wrap: break-word;
+    }
+    
+    #welcome-message {
+        font-size: 2rem;
+        padding: 0.5rem;
+    }
+    
+    .box-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.5rem;
+    }
+    
+    .box {
+        max-width: 100%;
+        width: 90%;
+        padding: 0.5rem;
+    }
+    
+    .box img {
+        height: 250px;
+    }
+    
+    .box h3 {
+        font-size: 1.4rem;
+        margin-top: 0.5rem;
+    }
+    
+    .nav-link {
+        font-size: 1.4rem;
+    }
+    
+    .cart-btn-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem;
+    }
+    
+    .btn-showcart, .btn-cleancart, #saveName, #searchBtn, #showAllBtn, #finalizePurchaseBtn {
+        width: 100%;
+        max-width: 200px;
+        font-size: 0.9rem;
+        padding: 0.5rem 1rem;
+        margin: 0.25rem 0;
+    }
+    
+    input[type="text"] {
+        width: 100%;
+        max-width: 200px;
+        font-size: 0.9rem;
+        padding: 0.5rem;
+        margin: 0.25rem auto;
+        display: block;
+    }
+    
+    .marketing-message {
+        font-size: 1rem;
+        padding: 0.5rem;
+        margin: 0.5rem auto;
+        max-width: 95%;
+        line-height: 1.4;
+    }
+    
+    .price {
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .price span {
+        font-size: 0.9rem;
+        margin-left: 0.25rem;
+    }
+    
+    .box p {
+        font-size: 0.9rem;
+        line-height: 1.4;
+    }
+    
+    .menu .box p,
+    .menu .box .price,
+    .menu .box a.btn {
+        padding: 0.5rem;
+        border-radius: 0.5rem;
+    }
+}
+
+/* Media Queries para pantallas muy pequeñas (320px y menos) */
+@media screen and (max-width: 320px) {
+    h1, .title-guitars {
+        font-size: 2rem;
+        padding: 0.25rem;
+    }
+    
+    #welcome-message {
+        font-size: 1.5rem;
+        padding: 0.25rem;
+    }
+    
+    .box img {
+        height: 200px;
+    }
+    
+    .box h3 {
+        font-size: 1.2rem;
+    }
+    
+    .nav-link {
+        font-size: 1.2rem;
+    }
+    
+    .btn-showcart, .btn-cleancart, #saveName, #searchBtn, #showAllBtn, #finalizePurchaseBtn {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.8rem;
+    }
+    
+    input[type="text"] {
+        font-size: 0.8rem;
+        padding: 0.4rem;
+    }
+    
+    .marketing-message {
+        font-size: 0.9rem;
+        padding: 0.4rem;
+    }
+    
+    .price {
+        font-size: 1rem;
+    }
+    
+    .price span {
+        font-size: 0.8rem;
+    }
+    
+    .box p {
+        font-size: 0.8rem;
+    }
+}
+
+/* Media Queries para orientación landscape en mobile */
+@media screen and (max-width: 768px) and (orientation: landscape) {
+    h1, .title-guitars {
+        font-size: 3rem;
+    }
+    
+    #welcome-message {
+        font-size: 2.5rem;
+    }
+    
+    .box-container {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+    
+    .box {
+        max-width: 200px;
+    }
+    
+    .box img {
+        height: 150px;
+    }
+    
+    .cart-btn-container {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .btn-showcart, .btn-cleancart, #saveName, #searchBtn, #showAllBtn, #finalizePurchaseBtn {
+        width: auto;
+        max-width: none;
+        margin: 0.25rem;
+    }
+}
+
+/* Mejoras de accesibilidad y rendimiento */
+@media (prefers-reduced-motion: reduce) {
+    .box img,
+    .btn-showcart,
+    .btn-cleancart,
+    #saveName,
+    #searchBtn,
+    #showAllBtn,
+    #finalizePurchaseBtn {
+        transition: none;
+    }
+    
+    .box img:hover {
+        transform: none;
+    }
+}
